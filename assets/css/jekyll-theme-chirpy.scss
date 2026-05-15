@@ -1,0 +1,54 @@
+---
+---
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* append your custom style below */
+/* Global Math Block Styling */
+mjx-container[jax='CHTML'][display='true'] {
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+/* Light Mode Background */
+html:not([data-mode]),
+html[data-mode='light'] {
+  mjx-container[jax='CHTML'][display='true'] {
+    background-color: #f8f9fa; /* Light grey */
+  }
+}
+
+/* Dark Mode Background */
+html[data-mode='dark'] {
+  mjx-container[jax='CHTML'][display='true'] {
+    background-color: #1e1e24; /* Dark charcoal */
+  }
+}
+
+/* Inline Math Styling */
+mjx-container[jax='CHTML']:not([display='true']) {
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Light Mode Background */
+html:not([data-mode]),
+html[data-mode='light'] {
+  mjx-container[jax='CHTML']:not([display='true']) {
+    background-color: #f1f3f5; /* Subtle light gray */
+  }
+}
+
+/* Dark Mode Background */
+html[data-mode='dark'] {
+  mjx-container[jax='CHTML']:not([display='true']) {
+    background-color: #252529; /* Deep charcoal matching code blocks */
+  }
+}
