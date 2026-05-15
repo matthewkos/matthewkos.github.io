@@ -1,6 +1,12 @@
 {
   "name": "Jekyll",
   "image": "mcr.microsoft.com/devcontainers/jekyll:2-bullseye",
+
+  "remoteUser": "vscode",
+  "containerUser": "vscode",
+  "updateRemoteUserUID": false,
+  "runArgs": ["--userns=keep-id"],
+
   "onCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
   "postCreateCommand": "bash .devcontainer/post-create.sh",
   "customizations": {
