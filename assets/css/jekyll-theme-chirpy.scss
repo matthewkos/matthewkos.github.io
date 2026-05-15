@@ -15,40 +15,22 @@ mjx-container[jax='CHTML'][display='true'] {
   border-radius: 6px;
   overflow-x: auto;
 }
+/* Inline Math Styling */
+mjx-container[jax='CHTML']:not([display='true']) {
+  border-radius: 6px;
+}
 
 /* Light Mode Background */
 html:not([data-mode]),
 html[data-mode='light'] {
-  mjx-container[jax='CHTML'][display='true'] {
+  mjx-container[jax='CHTML'] {
     background-color: #f8f9fa; /* Light grey */
   }
 }
 
 /* Dark Mode Background */
 html[data-mode='dark'] {
-  mjx-container[jax='CHTML'][display='true'] {
+  mjx-container[jax='CHTML'] {
     background-color: #1e1e24; /* Dark charcoal */
-  }
-}
-
-/* Inline Math Styling */
-mjx-container[jax='CHTML']:not([display='true']) {
-  padding: 2px 6px;
-  border-radius: 4px;
-  display: inline-block;
-}
-
-/* Light Mode Background */
-html:not([data-mode]),
-html[data-mode='light'] {
-  mjx-container[jax='CHTML']:not([display='true']) {
-    background-color: #f1f3f5; /* Subtle light gray */
-  }
-}
-
-/* Dark Mode Background */
-html[data-mode='dark'] {
-  mjx-container[jax='CHTML']:not([display='true']) {
-    background-color: #252529; /* Deep charcoal matching code blocks */
   }
 }
