@@ -1,17 +1,16 @@
 ---
 title: Quant Risks - Hedge Simple Options and Bond
+description: Introduction of Risk. Hedging strategy aginst market risk for (Vanilla) Options and Bond
 date: 2026-05-14 23:00:00 +0800
-categories: [ Quantitative Finance, Basic, Risk]
+categories: [ Quantitative Finance, Risk]
 tags:
   - public
   - study
   - mafs5220
 math: true
 ---
-# 1 Introduction
-This chapter is an introduction to Options Risks. We will cover about What are the source of risk how to hedge the Market Risk
 
-# 2 Source of Risk
+# 1 Source of Risk
 Typical sources of Risks
 1. **Market Risk** - Risk of change in portfolio value due to underlying assets (e.g. stock, bond, fx, commod)
 2. **Credit Risk** - Risk of not receving promised repayment on outstanding investment (e.g. bonds)
@@ -19,7 +18,9 @@ Typical sources of Risks
 
 In this chapter we will focus on Market Risk.
 
-# 3 Market Risk
+--- 
+
+## 1.1 Market Risk
 Market risk is the change in portfolio value due to the change of market value of the underlying assets (e.g. `asset price`, `exchange rate`, `commodity price`, etc).
 This chapter will cover two examples of assets and how to hedge their Risk
 
@@ -28,17 +29,39 @@ This chapter will cover two examples of assets and how to hedge their Risk
 | Options $V_t$ | Asset Price $S_t$   | Delta, Gemma, Theta, Vega, Rho |
 | Bond          | Interest Rate $r_t$ | Bond Immunization              |
 
-## 3.1 Recall Derivatives - Options
-### 3.1.1 Option pricing
-- Option price with [[Black-Scholes Merton Model]]: 
-	- $c(t, S_t) = S_t e^{-q(T-t)} N(d_1) - K e^{-r(T-t)} N(d_2)$ 
-	- $p(t, S_t) = K e^{-r(T-t)} N(-d_2) - S_t e^{-q(T-t)} N(-d_1)$ 
-	- where $d_1 = \frac{\ln \frac{S_t}{K}+(r-q+\frac{\sigma^2}{2})(T-t)}{\sigma \sqrt{T-t} }$
-	- where $d_2 = \frac{\ln \frac{S_t}{K}+(r-q-\frac{\sigma^2}{2})(T-t)}{\sigma \sqrt{T-t} }= d_1-\sigma \sqrt{T-t}$
-- Put-call Parity
-	- $p_t + S_t e^{-q(T-t)} = c_t + K e^{-r(T-t)}$
+--- 
+
+# 2 Options
+
+## 2.1 Option pricing
+> Option price with [[Black-Scholes Merton Model]]: 
+> 
+> CALL Option
+> 
+> $$c(t, S_t) = S_t e^{-q(T-t)} N(d_1) - K e^{-r(T-t)} N(d_2)$$
+> 
+> PUT Option
+> 
+> $$p(t, S_t) = K e^{-r(T-t)} N(-d_2) - S_t e^{-q(T-t)} N(-d_1)$$
+> 
+> where
+> 
+> $$\begin{align}
+  d_1 &= \frac{\ln \frac{S_t}{K}+(r-q+\frac{\sigma^2}{2})(T-t)}{\sigma \sqrt{T-t} } \\
+  d_2 &= \frac{\ln \frac{S_t}{K}+(r-q-\frac{\sigma^2}{2})(T-t)}{\sigma \sqrt{T-t} }= d_1-\sigma \sqrt{T-t} \\
+  \end{align}$$
+> 
+{: .prompt-tip}
+
+
+> Put-call Parity: 
+> The price of CALL options and PUT options can be related by
+> 
+> $$p_t + S_t e^{-q(T-t)} = c_t + K e^{-r(T-t)}$$
+> 
+{: .prompt-tip}
  
-### 3.1.2 Option Greeks
+## 2.2 Option Greeks
 **Major Greeks** - The most important greeks
 
 | Option Greek   | Definition                                     | Order | Property                                                                                                                                                              | Math formula for Put/Call                                                                                                                                                                                                                    |
@@ -59,13 +82,18 @@ This chapter will cover two examples of assets and how to hedge their Risk
 | Speed | $\frac{\partial^3 V}{\partial S_t^3}$               | 3     |
 | Color | $\frac{\partial^3 V}{\partial S_t^2 \partial t}$    | 3     |
 
-### 3.1.3 Delta Hedging
-#### 3.1.3.1 Construction
+### 2.2.1 Delta Hedging
+#### 2.2.1.1 Construction
 - Assume you short sell European Call option, to hedge the Delta risk, you also LONG $\Delta_t$ unit of asset
 - Your portfolio is $f_t=-1*c_t + \Delta_t*S_t$
-- Where we use [[Black-Scholes Merton Model]] to model  $S_t$  
-  $S_t=S_0 exp((\mu-\sigma^2/2)t+\sigma W_t)$   
-  and $d S_t = \mu S_t d_t + \sigma S_t d W_t$
+- Where we use [[Black-Scholes Merton Model]] to model  $S_t$ 
+
+  $S_t=S_0 exp((\mu-\sigma^2/2)t+\sigma W_t)$  
+  
+  and the differential form 
+  
+  $d S_t = \mu S_t d_t + \sigma S_t d W_t$ 
+
 - Your change of portfolio is $d f_t = - d c + \Delta_t d S_t + \Delta_t q S_t dt$   (assume continuous dividend q for asset) 
 - using [[Ito's Lemma]]
   
@@ -95,21 +123,37 @@ This chapter will cover two examples of assets and how to hedge their Risk
   
 - By choosing $\Delta_t = c_S$ this random terms goes to 0. (i.e. no Risk)
 - When $\Delta = 0 \implies \text{No Change in portfolio value even when asset price changes}$ 
-#### 3.1.3.2 General Delta hedging
 - If we have a portfolio, with total $\Delta=0$ then this portfolio is Delta Neutral (and should have return of Risk-free rate $r$) 
 
-### 3.1.4 Gamma Hedging
+#### 2.2.1.2 How to Delta Hedge
+> Find the $\Delta$ of the portfolio, then Buy the asset with  $\Delta$  unit
+{: .prompt-tip}
+
+### 2.2.2 Gamma Hedging
+#### 2.2.2.1 Construction
 - When $\Gamma$ is small, the change of asset price gives us small $\Delta$ (i.e. the portfolio value varies slightly)
 - When $\Gamma$ is large, the change of asset price gives large $\Delta$ (i.e. the portfolio value varies a lot)
 - more frequent balancing is needed in the case of large $\Gamma$
 - Want $\Gamma = 0 \implies \text{No Change in the delta even when asset price changes}$
 - this risk is due to we ignore the higher order terms in Ito's formula
-- No complete risk free as we still ignore more higher-order terms, but they are usually very small
+- Not complete-risk free as we still ignore more higher-order terms, but they are usually very small
 
-#### 3.1.4.1 Talyor Series Expansion:
-**Formula**
-- Single variant: $f(x) = \sum_{0}^{\infty}{\frac{1}{n!}f_x^{(n)}(a)(x-a)^n}$    
-- Multi variant: $f(x, y) = \sum_{0}^{\infty}{\frac{1}{n!}((x-a)\frac{\partial}{\partial x} + (y-a)\frac{\partial}{\partial y})^n(f(a,b))}$ 
+#### 2.2.2.2 How to Gamma Hedge
+> Find the $\Delta$ and $\Gamma$ of the different portfolio
+> Create a new weighted portlio $w$ s.t. 
+> $\vec{w}^T\cdot\vec{\Delta} =0$  and $\vec{w}^T\cdot\vec{\Gamma} =0$
+{: .prompt-tip}
+
+
+## 2.3 Talyor Series Expansion and second-order-approximation:
+> **Formula**
+> 
+> Single variant: $f(x) = \sum_{0}^{\infty}{\frac{1}{n!}f_x^{(n)}(a)(x-a)^n}$    
+> 
+> Multi variant: $f(x, y) = \sum_{0}^{\infty}{\frac{1}{n!}((x-a)\frac{\partial}{\partial x} + (y-a)\frac{\partial}{\partial y})^n(f(a,b))}$ 
+> 
+{: .prompt-tip}
+
 What talyor series means?
 - *Example 1a*:
 	- Image you have a line $y=f(x)=2x +C$
@@ -128,10 +172,13 @@ What talyor series means?
 	- Let $f(x)=2x^2-7x+C$, given $f(10)=8$, what is $f(12)$
 	- First, for you to verify $C=-122$
 	- We can still do it be talyor series up to 2nd order derivatives
+	  
 	 $$f'(x)=4x-7, f''(x)=4, f'''(x)=0$$
 	- Hence 
+	  
 	  $$f'(10)=33, f''(10)=4$$
 	- Then lets expand $f(x)$ at $x=10$
+	  
 	 $$f(x) = f(10) + f'(10)(x-10) + f''(10)(x-10)^2$$
 	- $$\begin{align}
 	  \text{L.H.S.} &= 2\cdot12^2-7\cdot12-122 = 82 \\ 
@@ -140,15 +187,15 @@ What talyor series means?
 	  &= 8+33\cdot2+\frac{4\cdot2^2}{2} \\ &=82 = \text{L.H.S.} \\
 	  \end{align}$$
 
-
-## 3.2 Bond
-### 3.2.1 Risk of bonds
+---
+# 3 Bond
+## 3.1 Risk of bonds
 Typical sources of Risks
 - Market risk: Interest risk
 - Credit risk: Default risk
 In this chapter we will focus on Market Risk.
 
-### 3.2.2 Bond Investment model
+## 3.2 Bond Investment model
 - Investment Horizon: $H$ years
 - At $t=0$ invests capital into a bond portfolio
 - At $t=H$, sells the bond
@@ -158,17 +205,17 @@ In this chapter we will focus on Market Risk.
 	- price risk: the price of selling the bond at $t=H$
 - Assume interest rate is annualized, compound annually
 
-### 3.2.3 Sensitivity of bond
+## 3.3 Sensitivity of bond
 - Duration: $\frac{\partial P}{\partial i}$ 
 - Convexity: $\frac{\partial^2 P}{\partial i^2}$
 - Modified Duration
-#### 3.2.3.1 Bond price
+### 3.3.1 Bond price
 - discounted value of all future cash flows
 - price $P(i)$
   
  $$P(i) = \sum_{k=1}^n{\frac{C_k}{(1+i)^{t_k}}}$$
  
-#### 3.2.3.2 Duration:
+### 3.3.2 Duration:
 - Duration: $P'(i)$, where $i$ is the annual effective yield rate
   
    $$\begin{align}
@@ -193,7 +240,7 @@ In this chapter we will focus on Market Risk.
    D_{mac}(i) &= (1+i)D_{mod}(i) &\quad \square \\
    \end{align}$$
 
-#### 3.2.3.3 Convexity
+### 3.3.3 Convexity
 - `Convexity`:
   
    $$\begin{align}
@@ -209,7 +256,7 @@ In this chapter we will focus on Market Risk.
               &= \frac{1}{(1+i)^2} \sum_{k=1}^n{\frac{C_k \cdot t_k \cdot (t_k + 1) }{P(i) (1+i)^{t_k}}} &\quad \square\\ 
    \end{align}$$
    
-#### 3.2.3.4 Use of Duration and Convexity
+### 3.3.4 Use of Duration and Convexity
 - Let $i_0$ be the initial yield rate
 - Second-order approximation of the change in bond price
   
@@ -227,19 +274,19 @@ In this chapter we will focus on Market Risk.
 	- $D_{mod}(i) = \sum_{k=1}^n{\frac{P_k(i)}{P(i)} \cdot D_{mod}^k(i)}$
 	- $C_{mod}(i) = \sum_{k=1}^n{\frac{P_k(i)}{P(i)} \cdot C_{mod}^k(i)}$
 	  
-#### 3.2.3.5 Internal Rate of return (IRR)
+### 3.3.5 Internal Rate of return (IRR)
 - In bond, we use IRR to check the annual effecitve interest rate compouded interest
 - $FV_H = P_0 (1+i_{IRR})^H$
   
   $$IRR = (\frac{FV_H}{P_0})^\frac{1}{H} - 1 \quad \square $$
   
-### 3.2.4 Bond Price Immunization - Hedge risk against i
-#### 3.2.4.1 Setup
+## 3.4 Bond Price Immunization - Hedge risk against i
+### 3.4.1 Construction
 To study Bond price moment, we assumes
 - at $t=0$, interest rate = $i_0$
 - at $t > 0$, interest rate change to $i$
 - This $i$ will not change for all the time horizon
-#### 3.2.4.2 IRR
+### 3.4.2 IRR
 - Further expands $IRR$
 - let $m$ be the last coupon received before $H$, i.e. $t_m <= H < t_{m+1}$ 
 - $P_H$ is the bond price at $H$
@@ -256,7 +303,7 @@ To study Bond price moment, we assumes
    &= \frac{1}{P_0(i_0)^{1/H}}(1+i)P_0(i)^{1/H} - 1 \quad \square
    \end{align}$$
    
-#### 3.2.4.3 Bond Immunization  $\frac{\partial IRR}{\partial i}=0$ 
+### 3.4.3 Bond Immunization  $\frac{\partial IRR}{\partial i}=0$ 
 - Set $\frac{\partial IRR}{\partial i}=0$ (as this is unsolvable, we only let this to 0 for $i=i0$)
   
    $$\begin{align}
@@ -276,7 +323,8 @@ To study Bond price moment, we assumes
 	2. Find a bond in the market that its $D_{mac}(i_0)$ matches our investment time horizon $H$
 	3. Construct a bond portfolio with different $D_{mac}(i_0)$ such that it matches our investment time horizon $H$.  
 		- Recall the portfoilo Duration is just weighted sum $D_{mod}(i) = \sum_{k=1}^n{\frac{P_k(i)}{P(i)} \cdot D_{mod}^k(i)}$
-#### 3.2.4.4 Optimal Portfolio
+
+### 3.4.4 Optimal Portfolio
 - There could have more than onr Portfolio that have the same $D_{mac}(i_0)$, is there anyone that is the most optimal?
 - Choose the portfolio with the **highest** Convexity $C_{mod}$
 - Proof by second order approximation
@@ -286,8 +334,10 @@ To study Bond price moment, we assumes
    \end{align}$$
    
 - If there are two portfilio $A$, $B$, which have the same $D_{mac}(i_0)$ then they have the same $P_0(i_0)$, $D_{mod}(i_0)$ therefore, the $C_{mod}$ can give higher $IRR$
-#### 3.2.4.5 Extend to multiple changes of i
+### 3.4.5 Extend to multiple changes of ir
 - In the above model, we assumed only 1 change of $i$ at $t>0$
 - if this changes multiple times, we need to reblance it
 - For each payment day (after coupon is received) and before i changes. 
 - we need to rebalance to match the future Duration
+
+---

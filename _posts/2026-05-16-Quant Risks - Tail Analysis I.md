@@ -1,7 +1,8 @@
 ---
-title: Quant Risks - Tail analysis I
+title: Quant Risks - Loss Tail Analysis I
+description: Introduction of Loss and tail analysis
 date: 2026-05-16 12:00:00 +0800
-categories: [ Quantitative Finance, Basic, Risk]
+categories: [ Quantitative Finance, Risk]
 tags:
   - public
   - study
@@ -10,6 +11,7 @@ math: true
 ---
 
 # 1 Loss analysis
+
 ## 1.1 Loss variable
 Define $L_n$ is a loss variable
 - When the $\Delta_t$ is small, we can just use $L_{n+1}=-(V_{n+1}-V_n)$ , with $V_n$ as our portfolio value, is $F_n$-measurable
@@ -24,34 +26,47 @@ Define $L_n$ is a loss variable
 ---
 
 # 2 Risk Measure
+
 ## 2.1 Variance
 More variance, more risk.
 - $VAR = \mathbb{E}[(L_{t+1}-\mathbb{E}[L_{t+1}])^2]=\mathbb{E}[X^2]-\mathbb{E}[X]^2$
 - $VAR=\vec{w}^T\mathbf{\Sigma}\vec{w}$ 
+- 
 ## 2.2 Value-at-Risk (VaR)
 > Formal defintion: 
+> 
 > $$\operatorname{VaR}_\alpha(L)=\inf\{x: \mathbb{P}(L<=x)>=\alpha\}$$
+> 
 {: .prompt-tip}
+
 - VaR is measuring the at $\alpha$ probabilty, the Loss <= VaR
 - Typical formula (for continuous Loss): 
+  
   $$\begin{align}
     \mathbb{P}(L<\operatorname{VaR}_\alpha(L)) &= \alpha \\ 
     F_L(\operatorname{VaR}_\alpha(L)) &=\alpha \\ 
     \operatorname{VaR}_\alpha(L) &= F_L^-1(\alpha)
     \end{align}$$
+    
 ## 2.3 Expected Shortfall (ES)
 > Formal defintion:
+> 
 > $$\operatorname{ES}_\alpha(L)=\mathbb{E}[L|L>\operatorname{VaR}_\alpha(L)]$$
+{: .prompt-tip}
+
 - The VaR give an estimateion of the loss bound
 - ES wants to know if the Loss > VaR, what is the expectation of Loss
 - Typical formula
+  
   $$\begin{align}
   \operatorname{ES}_\alpha(L) &= \int_{VaR}^{\infty}{x\cdot\frac{f_L(x)}{\mathbb{P}(L>\operatorname{VaR}_\alpha(L))}}{dx} \\
   &= \int_{VaR}^{\infty}{x\cdot\frac{f_L(x)}{1-F_L(\operatorname{VaR})}}{dx} \\
   &= \int_{VaR}^{\infty}{x\cdot\frac{f_L(x)}{1-\alpha}}{dx} \\ 
   &= \frac{1}{1-\alpha}\int_{VaR}^{\infty}{x \cdot f_L(x)}{dx} \quad \square
   \end{align}$$
+  
 - Alternative formula
+  
   $$\begin{align}
   \operatorname{ES}_\alpha(L) &= \frac{1}{1-\alpha}\int_{VaR}^{\infty}{x \cdot f_L(x)}{dx}  \\
   \text{let } y =F_L(x) \\ \text{ hence } dy=f_L(x)dx \\ \text{ and } x=F_L^-1(y) \\
@@ -59,14 +74,17 @@ More variance, more risk.
   &= \frac{1}{1-\alpha} \int_{\alpha}^1 {F_L^-1(y)} {dy}\\ 
   &= \frac{1}{1-\alpha} \int_{\alpha}^1 {\operatorname{VaR}_y(L)} {dy} \quad \square
   \end{align}$$
+  
 ## 2.4 Some Example
+
 ### 2.4.1 Pareto Distribution
 > Pareto Distribution is a power law distribution, usually used for distribution of law. It has 80:20 rule.
 > 
-> $L \sim Pareto(\alpha, \theta)$
+> $$L \sim Pareto(\alpha, \theta)$$
  {: .prompt-tip }
  
 Pareto Type II - Lomax: Start from 0, have heavy tail, 
+
 $$\begin{align}
 f_L(x) &= \frac{\alpha\theta^\alpha}{(x+\theta)^{\alpha+1}}\\
 F_L(x) &= 1 -  (\frac{\theta}{x+\theta})^\alpha \\
@@ -75,11 +93,13 @@ F_L(x) &= 1 -  (\frac{\theta}{x+\theta})^\alpha \\
 \operatorname{VaR}_\beta[X] &= \theta[(1-\beta)^{-1/c}-1] \\
 \operatorname{ES}_\beta[X] &= \frac{\alpha\theta}{\alpha-1}(1-\beta)^{-1/c}-\theta \\
 \end{align}$$
+
 ### 2.4.2 Normal Distribution
 > Normal Distribution 
 > 
-> $L \sim N(\mu, \sigma)$
+> $$L \sim N(\mu, \sigma)$$
  {: .prompt-tip }
+ 
 $$\begin{align}
 L &= \mu+\sigma Z\\
 f_L(x) &= \frac{1}{\sqrt{2\pi}\sigma}\exp(-{\frac{(x-\mu)^2}{2\sigma^2}}) \\
@@ -89,12 +109,15 @@ F_L(x) &= N(\frac{x-\mu}{\sigma}) \\
 \operatorname{VaR}_\beta[X] &= \mu+\sigma N^{-1}(\beta) \\
 \operatorname{ES}_\beta[X] &= \mu+\frac{\sigma}{1-\beta}\phi(N^{-1}(\beta)) \\
 \end{align}$$
+
 ### 2.4.3 T-Distribution
 > T-distribution: heavy tailed bell-shape
 > 
-> $L \sim T(\mu, \lambda, v)$
-> $T_v = \frac{Z}{\sqrt{V / v}}$, where $V \sim \chi^2(v)$
+> $$L \sim T(\mu, \lambda, v)$$
+> 
+> $$T_v = \frac{Z}{\sqrt{V / v}}$, where $V \sim \chi^2(v)$$
  {: .prompt-tip }
+ 
 $$\begin{align}
 L &= \mu+\lambda T_v\\
 f_L(x) &=  ...\\
