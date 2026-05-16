@@ -1,6 +1,6 @@
 ---
 title: Quant Risks - Loss Tail Analysis I
-description: Introduction of Loss and tail analysis
+description: Introduction of Loss and tail analysis - VaR and ES
 date: 2026-05-16 12:00:00 +0800
 categories: [ Quantitative Finance, Risk]
 tags:
