@@ -1,12 +1,14 @@
 ---
-title: Quant Risks - Loss Tail Analysis II
+title: Quant Risks - Loss Tail Analysis II - EVT
 description: Loss tail analysis with Extreme Value Theory
 date: 2026-05-16 15:00:00 +0800
-categories: [ Quantitative Finance, Risk]
+categories:
+  - Quantitative Finance
+  - Risk
 tags:
   - public
   - study
-  - mafs5220
+  - qf
 math: true
 ---
 
@@ -35,6 +37,7 @@ Create blocks of loss (usually by time) and study the maximum / minimum of the L
 > `Sample Minima`:
 > 
 > $$m_n = \min(\{X_i, i\in[1,n]\})$$
+> 
 {: .propmt-info}
 
 Then 
@@ -45,6 +48,7 @@ Then
   F_{M_n} &= \mathbb{P}(M_n <= x)=\prod_{i=1}^n{\mathbb{P}(X_i <= x)}\\
   &= F_X(x)^n \quad \square\\
   \end{align}$$
+> 
 {: .prompt-info}
  
  > CDF of $m_n$
@@ -54,6 +58,7 @@ Then
   &=1-\prod_{i=1}^n{\mathbb{P}(X_i > x)} \\
   &= 1-S_X(x)^n \quad \square\\
   \end{align}$$
+> 
 {: .prompt-info}
 
 ## 2.2 Limiting Distribution
@@ -71,6 +76,7 @@ Then
 - We will find some sequence $c_n, d_n$ such that
 
   $$\lim_{n\to\infty} \mathbb{P}(\frac{M_n-d_n}{c_n}<=x)=\lim_{n\to\infty} F_X(c_nx+d_n)^n=H(x)$$
+  
   where $H(x)$ is non-degenerate probability
 - $F_X(x) \in MDA(H)$ if $c_n, d_n$ exists
 
@@ -98,11 +104,13 @@ Then
 >$$V(x) = U(Ax+B)$$
 >
 >where 
+>
 >$$A=\lim_{n\to\infty}{\frac{c_v}{c_u}}$$ 
 >
 >and
 > 
 > $$B=\lim_{n\to\infty}{\frac{d_v-d_u}{c_u}}$$ 
+> 
 {: .prompt-info}
 
 > The 3 types can be generalized into Generalized Extreme Value Distribution (GEV)
@@ -123,16 +131,16 @@ Then
 #### 2.2.2.2 Using GEV to find VaR and ES
 - If we set a fixed Block size, after fitting the GEV $H_{\mu, \sigma, \xi}(x)$
 - This is an approximation of CDF of $M_n$
-  
- $$F_{M_n} \approx H_{\mu, \sigma, \xi}$$
+   
+   $$F_{M_n} \approx H_{\mu, \sigma, \xi}$$
  
 - VaR of $M_n$
   
   $$\begin{align}
   \text{Let }v &=\operatorname{VaR}_\alpha(M_n) \\
   F_{M_n}(v) &\approx H_{\mu, \sigma, \xi}(v)=\alpha \\
-  H(\frac{t-\mu}{\sigma}) &= \alpha \\
-  \operatorname{VaR}_\alpha(M_n) = v &= \mu + \sigma H^{-1} (\alpha) \quad &\square
+  H_\xi(\frac{v-\mu}{\sigma}) &= \alpha \\
+  \operatorname{VaR}_\alpha(M_n) = v &= \mu + \sigma H_\xi^{-1} (\alpha) \quad &\square
   \end{align}$$
   
   - For ES it is hard to have explicit formula
@@ -163,7 +171,8 @@ Data efficient way to model the tail distribution by keeping all tail data
   F_u(x) &= \mathbb{P}(X-u <= x | X > u)\\
   &= \frac{\mathbb{P}(u<X<=u+x)}{\mathbb{P}(X>u)} \\
   &= \frac{F_X(u+x)-F_X(u)}{1-F_X(u)} \quad \square
-  \end{align}$$
+  \end{align}$$ 
+> 
  {: .prompt-info}
 
 ## 3.2 Generalized Pareto Distribution (GPD)
@@ -174,7 +183,7 @@ Data efficient way to model the tail distribution by keeping all tail data
   1-(1+\frac{\xi x}{\beta})^{-1/\xi} & \text{if } \xi \ne 0 \\
   1-e^{-x/\xi} & \text{if } \xi = 0 \\
   \end{cases}
- \end{align}$$
+  \end{align}$$
  > 
  > if $F_X \in MDA(H)$, then $F_u(x)$ can also be approximate by GPD (Pickands-Balkema-deHann theorem)
 {: .prompt-info} 
@@ -186,9 +195,11 @@ Data efficient way to model the tail distribution by keeping all tail data
 > $$\begin{align}
   e(u) &= \mathbb{E}[X-u|X>u] \\
   \end{align}$$
+> 
 > By direct integration with the PDF of $G_{\xi,\beta}$ the integral converge to the same function (converge only when $\xi<1$)
 > 
 > $$e(u)= \frac{\beta}{1-\xi} \text{ for } \xi < 1$$
+> 
 {: .prompt-info}
 
 ### 3.3.1 Relationship of to other threshold
@@ -207,9 +218,11 @@ this only works for $v>u$
 
 ### 3.4.1 VaR
 > $$\operatorname{VaR}_\alpha(X)=v=((\frac{p}{1-\alpha})^\xi-1)\frac{\beta}{\xi}+u \quad \square$$
+> 
 {: .prompt-into}
 
 **Proof:**
+
   $$\begin{align}
  \text{let } p = \mathbb{P}(X>u) \\
  \text{let } v = \operatorname{VaR_\alpha(X)}  \\ \\
@@ -228,8 +241,10 @@ this only works for $v>u$
  v&=((\frac{1-\alpha}{p})^{-\xi}-1)\frac{\beta}{\xi}+u \\
  \operatorname{VaR}_\alpha(X)=v&=((\frac{p}{1-\alpha})^\xi-1)\frac{\beta}{\xi}+u \quad &\square
  \end{align}$$
+ 
 ### 3.4.2 ES
 > $$\operatorname{ES}_\alpha(X)=\frac{\beta+v-\xi u}{1-\xi} \quad \square$$
+> 
 {: .prompt-info}
 
  To find ES, we can do 
@@ -250,7 +265,9 @@ this only works for $v>u$
  &=\frac{1}{1-\xi}[v -\xi u + \beta  ] \\
  &=\frac{\beta+v-\xi u}{1-\xi} \quad &\square 
  \end{align}$$
+ 
 #### 3.4.2.2 ES by Mean excess function of u
+
 $$\begin{align}
 \operatorname{ES}_\alpha(X) &= \mathbb{E}[X|X>v] \quad\text{ given v>u } \\
 &=\mathbb{E}[X-v|X>v] + v \\

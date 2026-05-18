@@ -2,11 +2,13 @@
 title: Quant Risks - Hedge Simple Options and Bond
 description: Introduction of Risk. Hedging strategy aginst market risk for (Vanilla) Options and Bond
 date: 2026-05-14 23:00:00 +0800
-categories: [ Quantitative Finance, Risk]
+categories:
+  - Quantitative Finance
+  - Risk
 tags:
   - public
   - study
-  - mafs5220
+  - qf
 math: true
 ---
 
@@ -98,13 +100,12 @@ This chapter will cover two examples of assets and how to hedge their Risk
 - using [[Ito's Lemma]]
   
   $$\begin{align}
-   dc(t, S_t) &= c_t dt + c_S \cdot d S_t + \frac{1}{2} c_{SS} \cdot d{\langle S_t \rangle}_t  \\
-   \text{where } dS_t = \mu S_t d_t + \sigma S_t dW_t 
-   \text{ and } d{\langle S_t \rangle}_t = (\sigma S_t)^2d_t \\ 
-   &= c_t dt+\mu S_t c_S + \sigma S_t c_S \cdot dW_t + \frac{1}{2} c_{SS} \cdot \sigma^2 S_t ^2 \cdot dt \\
-   &= (c_t + \mu S_t c_S + \frac{1}{2} c_{SS} \cdot \sigma^2 S_t ^2)d_t + \sigma S_t c_S \cdot dW_t
-   
-   \end{align}$$
+  dc(t, S_t) &= c_t dt + c_S \cdot d S_t + \frac{1}{2} c_{SS} \cdot d{\langle S_t \rangle}_t  \\
+  \text{where } dS_t = \mu S_t d_t + \sigma S_t dW_t 
+  \text{ and } d{\langle S_t \rangle}_t = (\sigma S_t)^2d_t \\ 
+  &= c_t dt+\mu S_t c_S + \sigma S_t c_S \cdot dW_t + \frac{1}{2} c_{SS} \cdot \sigma^2 S_t ^2 \cdot dt \\
+  &= (c_t + \mu S_t c_S + \frac{1}{2} c_{SS} \cdot \sigma^2 S_t ^2)d_t + \sigma S_t c_S \cdot dW_t
+  \end{align}$$
    
 - There $df_t$
   
@@ -142,6 +143,7 @@ This chapter will cover two examples of assets and how to hedge their Risk
 > Find the $\Delta$ and $\Gamma$ of the different portfolio
 > Create a new weighted portlio $w$ s.t. 
 > $\vec{w}^T\cdot\vec{\Delta} =0$  and $\vec{w}^T\cdot\vec{\Gamma} =0$
+> 
 {: .prompt-tip}
 
 
@@ -171,15 +173,18 @@ What talyor series means?
 	- What happens if the curve is not a line? (e.g. 2nd order polynomials or even higher order)
 	- Let $f(x)=2x^2-7x+C$, given $f(10)=8$, what is $f(12)$
 	- First, for you to verify $C=-122$
-	- We can still do it be talyor series up to 2nd order derivatives
-	  
-	 $$f'(x)=4x-7, f''(x)=4, f'''(x)=0$$
+	- We can still do it be talyor series up to 2nd order derivatives  
+	   
+	   $$f'(x)=4x-7, f''(x)=4, f'''(x)=0$$
+
 	- Hence 
 	  
 	  $$f'(10)=33, f''(10)=4$$
+	  
 	- Then lets expand $f(x)$ at $x=10$
 	  
 	 $$f(x) = f(10) + f'(10)(x-10) + f''(10)(x-10)^2$$
+	 
 	- $$\begin{align}
 	  \text{L.H.S.} &= 2\cdot12^2-7\cdot12-122 = 82 \\ 
 	  \text{R.H.S.} &= f(12) \\
@@ -188,6 +193,7 @@ What talyor series means?
 	  \end{align}$$
 
 ---
+
 # 3 Bond
 ## 3.1 Risk of bonds
 Typical sources of Risks
@@ -219,9 +225,9 @@ In this chapter we will focus on Market Risk.
 - Duration: $P'(i)$, where $i$ is the annual effective yield rate
   
    $$\begin{align}
-   D(i) = P'(i) &= \sum_{k=1}^n{C_k (-t_k) (1+i)^{-(t_k+1)}} \\
-   &= -\frac{1}{1+i}\sum_{k=1}^n{C_k t_k (1+i)^{-t_k}}  \quad \square\\
- \end{align}$$
+  D(i) = P'(i) &= \sum_{k=1}^n{C_k (-t_k) (1+i)^{-(t_k+1)}} \\
+  &= -\frac{1}{1+i}\sum_{k=1}^n{C_k t_k (1+i)^{-t_k}}  \quad \square\\
+  \end{align}$$
    
 - commonly we used the `modified duration` $D_{mod}(i)$ which is the `Duration` normalized by $P(i)$ as we are more concern on the percentage change instead of the price changes. So that we can compare the bonds. 
 - We also noticed that this is always -ve, we want to make it positive for easier comparison, so this is defined as -ve

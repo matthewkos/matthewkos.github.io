@@ -1,12 +1,14 @@
 ---
-title: Quant Risks - Loss Tail Analysis III
+title: Quant Risks - Loss Tail Analysis III - Multivariant dependence
 description: Multi variant Loss Analysis and Coupla
 date: 2026-05-17 03:45:00 +0800
-categories: [ Quantitative Finance, Risk]
+categories:
+  - Quantitative Finance
+  - Risk
 tags:
   - public
   - study
-  - mafs5220
+  - qf
 math: true
 ---
 
@@ -15,12 +17,11 @@ math: true
 ## 1.1 Single-variant
 
 $$\begin{align}
-
 \mathbb{E}[A{X}+{b}] &= A\mathbb{E}[{X}] + {b} \\
-COV[A,B] &= \mathbb{E}[(A-\mathbb{E}[A])(B-\mathbb{E}[B])] \\
-COV[A+x,B+x] &= COV[A,B] \\
-COV[cA,dB] &= cd \cdot COV[A,B] \\
-COV[A+C,B] &= COV[A,B] + COV[C,B] \\
+\operatorname{COV}[A,B] &= \mathbb{E}[(A-\mathbb{E}[A])(B-\mathbb{E}[B])] \\
+\operatorname{COV}[A+x,B+x] &= \operatorname{COV}[A,B] \\
+\operatorname{COV}[cA,dB] &= cd \cdot \operatorname{COV}[A,B] \\
+\operatorname{COV}[A+C,B] &= \operatorname{COV}[A,B] + \operatorname{COV}[C,B] \\
 \end{align}$$
 
 ### 1.1.1 Normal distribution
@@ -93,6 +94,7 @@ Independence: $COV(X_1, X_2) = 0 $
   \mathbb{E}[\vec{X}] &= \vec{\mu} \\
   \operatorname{COV[\vec{X}]} &= \Sigma
  \end{align}$$
+>
 {: .prompt-info}
 
 > If  $Y = \vec{w}^T\vec{X}$, 
@@ -101,6 +103,7 @@ Independence: $COV(X_1, X_2) = 0 $
   Y &\sim N(\vec{w}^T\vec{\mu}, \vec{w}^T\Sigma\vec{w}) \\
   Y &= (\vec{w}^T\vec{\mu}) + (\vec{w}^T\Sigma\vec{w})Z
   \end{align}$$
+>
 {: .prompt-info}
 
 ### 1.2.2 Student's-t distribution (Multi-variant)
@@ -121,6 +124,7 @@ Independence: $COV(X_1, X_2) = 0 $
   &= \vec{w}^T\vec{\mu} + (\vec{w}^T\Lambda\vec{w}) T_v \\
   Y &\sim T_v(\vec{w^T}\vec{\mu}, \vec{w^T}\Lambda\vec{w})
   \end{align}$$
+>
 {: .prompt-info}
 
 ---
@@ -150,6 +154,7 @@ $$\begin{align}
 &= F_X(F_X^{-1}(y)) \\ 
 &= y \quad\text{ for } y\in[0,1]
 \end{align}$$
+
 ## 2.1 Property of Copula
 1. $C(u_1, u_2, ..., u_n)$ is the joint distribution on $\vec{U}$ where $U_i \in [0,1]$  is the CDF of $X_i$,  and $U_i$ is uniform
 2. $C(\vec{u}) =0 \text{ if } \exists c_i =0$
@@ -192,7 +197,7 @@ $$\begin{align}
   &= N_n(N^{-1}(u_i), ...) \quad \text{ where } N_n \text{ is n-dim CDF of normal}
   \end{align}$$
 >  
->For $X_i~N(\mu_i, \sigma_i)$, $\vec{X}\sim N(\vec{\mu}, \Sigma)$ 
+> For $X_i~N(\mu_i, \sigma_i)$, $\vec{X}\sim N(\vec{\mu}, \Sigma)$ 
 >
 > we can define 
 > 
@@ -225,6 +230,7 @@ $$\begin{align}
  {: .prompt-info}
  
 ### 2.2.6 Archimedean Copula
+
 > `Archimedean Copula` is a class of copula for bivariate RV, usful for a lot of financial problem.
 >
 > We first define a generator function $\phi(t)$. It must fulfill
@@ -236,6 +242,7 @@ $$\begin{align}
 > Then
 > 
 > $$C(u_1, u_2)=\phi(\phi^-1(u_1)+\phi^-1(u_2)$$
+> 
 {: .prompt-info}
 
 A summary table of different common `Archimedean Copula`
@@ -258,9 +265,10 @@ For any copula,
 > 
 > Joint distribution is marginal distribution + copula
 >
->$$\begin{align} 
-F_\vec{X}(x_1, x_2,...)=C(F_{X_1}(x_1), F_{X_2}(x_2), ...)
-\end{align}$$
+> $$\begin{align} 
+  F_\vec{X}(x_1, x_2,...)=C(F_{X_1}(x_1), F_{X_2}(x_2), ...)
+  \end{align}$$
+>
 {: .prompt-info}
 
 To use Sklar theorem on a set of RV $X_i$ to find the joint distribution:
@@ -289,6 +297,7 @@ To use Sklar theorem on a set of RV $X_i$ to find the joint distribution:
   \end{align}$$
 > 
 > $$-1 \le \rho_\tau \le 1$$
+> 
 {: .prompt-info}
 
  See this two parts:
@@ -335,6 +344,7 @@ $$\begin{align}
 > $$\begin{align} 
   \rho_\tau &= 1+4\int_0^1 {\frac{\phi^{-1}(t)}{\frac{d}{dt}\phi^{-1}(t)}} dt
   \end{align}$$
+>
 {: .prompt-info}
 
 ## 3.2 Coefficient of Tail Dependence
@@ -348,6 +358,7 @@ example: portfolio loss: when diversification fails
   \lambda_U &=\lim_{\alpha\to1^-} \mathbb{P}(X_2>F_{X_2}^{-1}(\alpha)|X_1>F_{X_1}^{-1}(\alpha)) \\
   \lambda_L &=\lim_{\alpha\to0^+} \mathbb{P}(X_2<F_{X_2}^{-1}(\alpha)|X_1<F_{X_1}^{-1}(\alpha)) \\
   \end{align}$$
+>
 {: .prompt-info}
 
 > For Copula:
@@ -363,6 +374,24 @@ example: portfolio loss: when diversification fails
   \lambda_U &=\lim_{\alpha\to1^-} \frac{1-2\alpha+\phi(2\phi^{-1}(\alpha))}{1-\alpha} \\
   \lambda_L &=\lim_{\alpha\to0^+} \frac{\phi(2\phi^{-1}(\alpha))}{\alpha} \\
   \end{align}$$
+>
 {: .prompt-info}
+
+*Proof:*
+
+$$\begin{align} 
+\lambda_U &=\lim_{\alpha\to1^-} \mathbb{P}(X_2>F_{X_2}^{-1}(\alpha)|X_1>F_{X_1}^{-1}(\alpha)) \\
+&=\lim_{\alpha\to1^-} \mathbb{P}(X_2>F_{X_2}^{-1}(\alpha) , X_1>F_{X_1}^{-1}(\alpha)) / \mathbb{P}(X_1>F_{X_1}^{-1}(\alpha))\\
+& \text{note: } \{X_1>a,X_2>a\}^c= \{X_1>a \text{ or }X_2>a\} = \{\{X_1>a\} \text{ or } \{X_2>a\}\} - \{X_1<a,X_2<a\} \\
+&=\lim_{\alpha\to1^-} (1-(\mathbb{P}(X_1>F_{X_1}^{-1}(\alpha)) + \mathbb{P}(X_2>F_{X_2}^{-1}(\alpha)) - \mathbb{P}(X<F_{X_1}^{-1}(\alpha), X_2<F_{X_2}^{-1}(\alpha)))) \frac{1}{1-\alpha}\\
+&=\lim_{\alpha\to1^-} \frac{1}{1-\alpha} (1-2\alpha+C(\alpha, \alpha)) \\
+&=\lim_{\alpha\to1^-} \frac{1-2\alpha+C(\alpha, \alpha)}{1-\alpha}  \quad \square \\
+\end{align}$$
+
+$$\begin{align} 
+\lambda_L &=\lim_{\alpha\to0^+} \mathbb{P}(X_2<F_{X_2}^{-1}(\alpha)|X_1<F_{X_1}^{-1}(\alpha)) \\
+&=\lim_{\alpha\to0^+} \mathbb{P}(X_2<F_{X_2}^{-1}(\alpha),X_1<F_{X_1}^{-1}(\alpha))/\mathbb{P}(X_1<F_{X_1}^{-1}(\alpha)) \\
+&=\lim_{\alpha\to0^+} \frac{C(\alpha, \alpha)}{\alpha} \quad \square 
+\end{align}$$
 
 ---

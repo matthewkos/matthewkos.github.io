@@ -1,12 +1,14 @@
 ---
-title: Quant Risks - Loss Tail Analysis I
-description: Introduction of Loss and tail analysis - VaR and ES
+title: Quant Risks - Loss Tail Analysis I - VaR and ES Metrics
+description: Introduction of Loss and tail analysis
 date: 2026-05-16 12:00:00 +0800
-categories: [ Quantitative Finance, Risk]
+categories:
+  - Quantitative Finance
+  - Risk
 tags:
   - public
   - study
-  - mafs5220
+  - qf
 math: true
 ---
 
@@ -43,15 +45,16 @@ More variance, more risk.
 - Typical formula (for continuous Loss): 
   
   $$\begin{align}
-    \mathbb{P}(L<\operatorname{VaR}_\alpha(L)) &= \alpha \\ 
-    F_L(\operatorname{VaR}_\alpha(L)) &=\alpha \\ 
-    \operatorname{VaR}_\alpha(L) &= F_L^-1(\alpha)
-    \end{align}$$
+  \mathbb{P}(L<\operatorname{VaR}_\alpha(L)) &= \alpha \\ 
+  F_L(\operatorname{VaR}_\alpha(L)) &=\alpha \\ 
+  \operatorname{VaR}_\alpha(L) &= F_L^-1(\alpha)
+  \end{align}$$
     
 ## 2.3 Expected Shortfall (ES)
 > Formal defintion:
 > 
 > $$\operatorname{ES}_\alpha(L)=\mathbb{E}[L|L>\operatorname{VaR}_\alpha(L)]$$
+> 
 {: .prompt-tip}
 
 - The VaR give an estimateion of the loss bound
@@ -81,6 +84,7 @@ More variance, more risk.
 > Pareto Distribution is a power law distribution, usually used for distribution of law. It has 80:20 rule.
 > 
 > $$L \sim Pareto(\alpha, \theta)$$
+> 
  {: .prompt-tip }
  
 Pareto Type II - Lomax: Start from 0, have heavy tail, 
@@ -90,14 +94,15 @@ f_L(x) &= \frac{\alpha\theta^\alpha}{(x+\theta)^{\alpha+1}}\\
 F_L(x) &= 1 -  (\frac{\theta}{x+\theta})^\alpha \\
 \mathbb{E}[X] &= \frac{\theta}{\alpha-1} \\
 \operatorname{VAR}[X] &= \frac{\alpha\theta^2}{(\alpha-1)^2(\alpha-2)} \\
-\operatorname{VaR}_\beta[X] &= \theta[(1-\beta)^{-1/c}-1] \\
-\operatorname{ES}_\beta[X] &= \frac{\alpha\theta}{\alpha-1}(1-\beta)^{-1/c}-\theta \\
+\operatorname{VaR}_\beta[X] &= \theta[(1-\beta)^{-1/\alpha}-1] \\
+\operatorname{ES}_\beta[X] &= \frac{\alpha\theta}{\alpha-1}(1-\beta)^{-1/\alpha}-\theta \\
 \end{align}$$
 
 ### 2.4.2 Normal Distribution
 > Normal Distribution 
 > 
 > $$L \sim N(\mu, \sigma)$$
+> 
  {: .prompt-tip }
  
 $$\begin{align}
@@ -115,7 +120,8 @@ F_L(x) &= N(\frac{x-\mu}{\sigma}) \\
 > 
 > $$L \sim T(\mu, \lambda, v)$$
 > 
-> $$T_v = \frac{Z}{\sqrt{V / v}}$, where $V \sim \chi^2(v)$$
+> $$T_v = \frac{Z}{\sqrt{V / v}} \quad \text{, where } V \sim \chi^2(v)$$
+> 
  {: .prompt-tip }
  
 $$\begin{align}
@@ -123,7 +129,7 @@ L &= \mu+\lambda T_v\\
 f_L(x) &=  ...\\
 F_L(x) &=  F_T(\frac{x-\mu}{\lambda}) \\
 \mathbb{E}[X] &= \mu \\
-\operatorname{VAR}[X] &= \sigma^2 \frac{v}{v-2} \\
+\operatorname{VAR}[X] &= \lambda^2 \frac{v}{v-2} \\
 \operatorname{VaR}_\beta[X] &= \mu+\lambda F_{T_v}^{-1}(\beta) \\
 \operatorname{ES}_\beta[X] &= \mu+\frac{\lambda}{1-\beta}f_{T_v}(F_{T_V}^{-1}(\beta)) \cdot \frac{v+(F_{T_V}^{-1}(\beta))^2}{v-1} \\
 \end{align}$$
@@ -135,12 +141,12 @@ F_L(x) &=  F_T(\frac{x-\mu}{\lambda}) \\
 
 A good coherent metric must have these 4 properties
 
-| Property               | Definition                                       | Remarks                                                                                                                    |
-| ---------------------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
-| Monotonicity           | if $L_1<L_2$,<br> then $\gamma(L_1)<\gamma(L_2)$ | If $Port_2$ is worse than $Port_1$ for all scenario, <br>then the risk measure of 2 is higher                              |
-| Translation Invariance | $\gamma(L+c) = \gamma(L) + c$                    | adding deterministic loss just shift the loss <br>(e.g. adding risk-free deposit just lower the risk by the same quantity) |
-| Poisitive Homogeneity  | $\gamma(\lambda L)=\lambda \gamma(L)$            | Scaling the portfolio will result in the same scale of the loss                                                            |
-| Subadditivity          | $\gamma(L_1+L_2) < \gamma(L_1) + \gamma(L_2)$    | Diversification makes less risk                                                                                            |
+| Property               | Definition                                               | Remarks                                                                                                                    |
+| ---------------------- | -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Monotonicity           | if $L_1 \le L_2$,<br> then $\gamma(L_1) \le \gamma(L_2)$ | If $Port_2$ is worse than $Port_1$ for all scenario, <br>then the risk measure of 2 is higher                              |
+| Translation Invariance | $\gamma(L+c) = \gamma(L) + c$                            | adding deterministic loss just shift the loss <br>(e.g. adding risk-free deposit just lower the risk by the same quantity) |
+| Poisitive Homogeneity  | $\gamma(\lambda L)=\lambda \gamma(L)$                    | Scaling the portfolio will result in the same scale of the loss                                                            |
+| Subadditivity          | $\gamma(L_1+L_2) \le \gamma(L_1) + \gamma(L_2)$          | Diversification makes less risk                                                                                            |
 
 ### 2.5.2 Convex
 > Convex is a necessary condition for a good metric.  
@@ -149,11 +155,11 @@ A good coherent metric must have these 4 properties
 > Coherent implies Convex
 {: .prompt-tip}
 
-| Property               | Definition                                                                              | Remarks                                                                                                                    |
-| ---------------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Monotonicity           | if $L_1<L_2$,<br> then $\gamma(L_1)<\gamma(L_2)$                                        | If $Port_2$ is worse than $Port_1$ for all scenario, <br>then the risk measure of 2 is higher                              |
-| Translation Invariance | $\gamma(L+c) = \gamma(L) + c$                                                           | adding deterministic loss just shift the loss <br>(e.g. adding risk-free deposit just lower the risk by the same quantity) |
-| Conexity               | $\gamma(\lambda L_1 + (1-\lambda) L_2 <= \lambda \gamma(L_1) + (1-\lambda) \gamma(L_2)$ | Diversification makes less risk                                                                                            |
+| Property               | Definition                                                                               | Remarks                                                                                                                    |
+| ---------------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Monotonicity           | if $L_1 \le L_2$,<br> then $\gamma(L_1) \le \gamma(L_2)$                                 | If $Port_2$ is worse than $Port_1$ for all scenario, <br>then the risk measure of 2 is higher                              |
+| Translation Invariance | $\gamma(L+c) = \gamma(L) + c$                                                            | adding deterministic loss just shift the loss <br>(e.g. adding risk-free deposit just lower the risk by the same quantity) |
+| Conexity               | $\gamma(\lambda L_1 + (1-\lambda) L_2 \le \lambda \gamma(L_1) + (1-\lambda) \gamma(L_2)$ | Diversification makes less risk                                                                                            |
 
 ### 2.5.3 Summary of Metric
 
