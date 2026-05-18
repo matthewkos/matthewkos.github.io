@@ -34,3 +34,15 @@ html[data-mode='dark'] {
     background-color: #1e1e24; /* Dark charcoal */
   }
 }
+
+#toc .is-collapsible,
+#toc .is-collapsed {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+#toc .node-name--H4,
+#toc .node-name--H5,
+#toc .node-name--H6 {
+  display: block !important;
+}
